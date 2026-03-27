@@ -167,7 +167,7 @@ export function captureSnaps(state){
     }
     wr.appendChild(c);
     const lb=document.createElement('div');lb.className='snap-lbl';lb.textContent=kf.l;wr.appendChild(lb);
-    wr.addEventListener('click',()=>{state.currentFrameIdx=fi;if(!_cameraMode){videoElement.currentTime=fd.time;}state.redraw();});
+    wr.addEventListener('click',()=>{state.currentFrameIdx=fi;if(!_cameraMode){videoElement.currentTime=fd.time;}state.redraw();state.closeDrawer();});
     strip.appendChild(wr);
   }
 

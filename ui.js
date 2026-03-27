@@ -55,6 +55,7 @@ loadSettings();
 // Drawer
 function openDrawer(){$('drawer').classList.add('open');$('scrim').classList.add('open');}
 function closeDrawer(){$('drawer').classList.remove('open');$('scrim').classList.remove('open');}
+state.closeDrawer = closeDrawer;
 $('drawerToggle').addEventListener('click',()=>{$('drawer').classList.contains('open')?closeDrawer():openDrawer()});
 $('drawerClose').addEventListener('click',closeDrawer);$('scrim').addEventListener('click',closeDrawer);
 
@@ -133,6 +134,28 @@ function handleFile(file){
 }
 
 function fmt(s){return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0')}
+
+// Overlay toggles
+$('togSkel').addEventListener('click', () => {
+  state.showSkeleton = !state.showSkeleton;
+  $('togSkel').classList.toggle('on', state.showSkeleton);
+  R.redraw(state);
+});
+$('togPlane').addEventListener('click', () => {
+  state.showPlane = !state.showPlane;
+  $('togPlane').classList.toggle('on', state.showPlane);
+  R.redraw(state);
+});
+$('togAng').addEventListener('click', () => {
+  state.showAngles = !state.showAngles;
+  $('togAng').classList.toggle('on', state.showAngles);
+  R.redraw(state);
+});
+$('togGhost').addEventListener('click', () => {
+  state.showGhost = !state.showGhost;
+  $('togGhost').classList.toggle('on', state.showGhost);
+  R.redraw(state);
+}); // to ensure we catch clicks
 
 // Controls
 $('playBtn').addEventListener('click',togglePlay);
