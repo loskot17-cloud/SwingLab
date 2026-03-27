@@ -16,7 +16,7 @@ const state = {
   speeds:[0.25,0.5,1,1.5],spdI:2,
   cameraStream:null,livePose:null,liveMode:false,liveAnimFrame:null,swingState:'idle',liveFrameBuffer:[],swingFrames:[],preSwingBuffer:[],
   PRE_BUFFER_SIZE:15,MIN_SWING_FRAMES:8,lastWristY:null,wristSmooth:0,motionSmooth:0,swingCooldown:0,
-  _cameraMode:false,selectedClub:'Driver',previousLandmarks:[],zoomScale:1,zoomX:0,zoomY:0,lastTouchDistance:0,lastTap:0
+  _cameraMode:false,selectedClub:'Driver',previousLandmarks:[],zoomScale:1,zoomX:0,zoomY:0,lastTouchDistance:0,lastTap:0,isPanning:false,panStartX:0,panStartY:0
 };
 
 state.getPhase = function(idx){
@@ -34,8 +34,8 @@ state.syncCanvasSize = function(){
   const r=state.videoElement.getBoundingClientRect();
   state.poseCanvas.style.width=r.width+'px';
   state.poseCanvas.style.height=r.height+'px';
-  state.poseCanvas.style.left=r.left+'px';
-  state.poseCanvas.style.top=r.top+'px';
+  state.poseCanvas.style.top='0px';
+  state.poseCanvas.style.left='0px';
 };
 
 state.syncCameraCanvas = function(){
@@ -91,10 +91,15 @@ function getTouchDistance(touches){
 function applyZoom(){
   zoomContainer.style.transform = `scale(${state.zoomScale}) translate(${state.zoomX}px, ${state.zoomY}px)`;
   zoomContainer.style.transformOrigin = 'center';
+  state.syncCanvasSize();
 }
 zoomContainer.addEventListener('touchstart', e => {
   if(e.touches.length === 2){
     state.lastTouchDistance = getTouchDistance(e.touches);
+  } else if(e.touches.length === 1 && state.zoomScale > 1){
+    state.isPanning = true;
+    state.panStartX = e.touches[0].clientX - state.zoomX;
+    state.panStartY = e.touches[0].clientY - state.zoomY;
   } else if(e.touches.length === 1){
     const now = Date.now();
     if(now - state.lastTap < 300){
@@ -116,11 +121,22 @@ zoomContainer.addEventListener('touchmove', e => {
     state.zoomScale = Math.max(1, Math.min(5, state.zoomScale)); // Min 1x, max 5x
     state.lastTouchDistance = dist;
     applyZoom();
+  } else if(e.touches.length === 1 && state.isPanning){
+    e.preventDefault();
+    state.zoomX = e.touches[0].clientX - state.panStartX;
+    state.zoomY = e.touches[0].clientY - state.panStartY;
+    // Constrain pan
+    const maxX = (state.zoomScale - 1) * zoomContainer.offsetWidth / 2;
+    const maxY = (state.zoomScale - 1) * zoomContainer.offsetHeight / 2;
+    state.zoomX = Math.max(-maxX, Math.min(maxX, state.zoomX));
+    state.zoomY = Math.max(-maxY, Math.min(maxY, state.zoomY));
+    applyZoom();
   }
 });
 zoomContainer.addEventListener('touchend', e => {
   if(e.touches.length === 0){
     state.lastTouchDistance = 0;
+    state.isPanning = false;
   }
 });
 

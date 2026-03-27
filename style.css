@@ -13,7 +13,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);height:100vh
 .video-area{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#080a09}
 .zoom-container{position:relative;width:100%;height:100%;overflow:hidden}
 #videoElement{max-width:100%;max-height:100%;display:none}
-#poseCanvas{position:absolute;pointer-events:none}
+#poseCanvas{position:absolute;top:0;left:0;pointer-events:none}
 .top-bar{position:absolute;top:0;left:0;right:0;z-index:45;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:linear-gradient(rgba(11,14,12,0.85),transparent);pointer-events:none}
 .top-bar>*{pointer-events:auto}
 .logo{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:15px;font-weight:700;color:var(--text);letter-spacing:-0.3px}
@@ -31,7 +31,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);height:100vh
 .upload-btn-main{background:var(--green);color:var(--bg);border:none;padding:14px 32px;border-radius:12px;font-family:var(--mono);font-size:13px;font-weight:600;cursor:pointer;transition:transform 0.15s;min-height:48px}
 .upload-btn-main:hover{transform:translateY(-1px)}
 #fileInput{display:none}
-.controls-bar{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:45;display:none;align-items:center;gap:8px;padding:10px 16px;background:rgba(11,14,12,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:16px;backdrop-filter:blur(20px)}
+.controls-bar{position:fixed;left:50%;transform:translateX(-50%);z-index:45;display:none;align-items:center;gap:8px;padding:10px 16px;background:rgba(11,14,12,0.8);border:1px solid rgba(255,255,255,0.1);border-radius:16px;backdrop-filter:blur(20px);bottom:calc(16px + env(safe-area-inset-bottom))}
 .controls-bar.visible{display:flex}
 .cb{background:none;border:none;color:var(--text2);width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
 .cb:hover{color:var(--text);background:rgba(255,255,255,0.1)}
@@ -193,7 +193,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);height:100vh
 @media(max-width:768px){
   .drawer{width:100%}
   #progressBar{width:100px}
-  .controls-bar{bottom:16px;left:0;right:0;width:100%;transform:none;padding:12px 20px;border-radius:0}
+  .controls-bar{left:0;right:0;width:100%;transform:none;padding:12px 20px;border-radius:0;bottom:calc(16px + env(safe-area-inset-bottom))}
   .controls-bar.visible{display:flex}
   .cb{width:48px;height:48px;font-size:16px}
   .ob{min-width:48px;padding:10px 14px;font-size:11px}
