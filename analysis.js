@@ -318,6 +318,27 @@ export function gradeLimbs(fd,phase,analysisResult,allFrameData,detectedView,han
   return g;
 }
 
+export function calcGolferBounds(allFrameData){
+  if(!allFrameData||allFrameData.length===0)return null;
+  let minX=1,maxX=0,minY=1,maxY=0;
+  for(const fd of allFrameData){
+    for(const lm of fd.landmarks){
+      if(lm.visibility>0.3){
+        minX=Math.min(minX,lm.x);
+        maxX=Math.max(maxX,lm.x);
+        minY=Math.min(minY,lm.y);
+        maxY=Math.max(maxY,lm.y);
+      }
+    }
+  }
+  const pad=0.15;
+  minX=Math.max(0,minX-pad);
+  maxX=Math.min(1,maxX+pad);
+  minY=Math.max(0,minY-pad);
+  maxY=Math.min(1,maxY+pad);
+  return {minX,maxX,minY,maxY};
+}
+
 export function getIdealPoseKeyframes(analysisResult,allFrameData,detectedView,handedness){
   if(!analysisResult?.phases||!allFrameData.length)return null;
   const addrF=allFrameData[analysisResult.phases.address.end];

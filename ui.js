@@ -16,7 +16,7 @@ const state = {
   speeds:[0.25,0.5,1,1.5],spdI:2,
   cameraStream:null,livePose:null,liveMode:false,liveAnimFrame:null,swingState:'idle',liveFrameBuffer:[],swingFrames:[],preSwingBuffer:[],
   PRE_BUFFER_SIZE:15,MIN_SWING_FRAMES:8,lastWristY:null,wristSmooth:0,motionSmooth:0,swingCooldown:0,
-  _cameraMode:false,selectedClub:'Driver',previousLandmarks:[],zoomScale:1,zoomX:0,zoomY:0,lastTouchDistance:0,lastTap:0,isPanning:false,panStartX:0,panStartY:0
+  _cameraMode:false,selectedClub:'Driver',previousLandmarks:[],zoomScale:1,zoomX:0,zoomY:0,lastTouchDistance:0,lastTap:0,isPanning:false,panStartX:0,panStartY:0,fitMode:false,golferBounds:null
 };
 
 state.getPhase = function(idx){
@@ -80,6 +80,32 @@ function renderSensSliders(){
   });
 }
 initSettingsUI();
+
+// Fit button
+$('fitBtn').addEventListener('click', () => {
+  state.fitMode = !state.fitMode;
+  if(state.fitMode){
+    const bounds = state.golferBounds;
+    if(bounds){
+      const w = bounds.maxX - bounds.minX;
+      const h = bounds.maxY - bounds.minY;
+      const scale = 1 / Math.max(w, h);
+      const centerX = (bounds.minX + bounds.maxX) / 2;
+      const centerY = (bounds.minY + bounds.maxY) / 2;
+      const translateX = -centerX * scale + 0.5 * (1 - w * scale);
+      const translateY = -centerY * scale + 0.5 * (1 - h * scale);
+      state.zoomScale = scale;
+      state.zoomX = translateX;
+      state.zoomY = translateY;
+    }
+  } else {
+    state.zoomScale = 1;
+    state.zoomX = 0;
+    state.zoomY = 0;
+  }
+  applyZoom();
+  $('fitBtn').textContent = state.fitMode ? 'Full' : 'Fit';
+});
 
 // Pinch to zoom
 const zoomContainer = $('zoomContainer');
@@ -331,6 +357,7 @@ function runAnalysis(){
 
   R.captureSnaps(state);
   R.compareSaved(state);
+  state.golferBounds = A.calcGolferBounds(state.allFrameData);
   openDrawer();
   R.redraw(state);
 }
