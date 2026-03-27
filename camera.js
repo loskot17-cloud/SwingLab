@@ -95,6 +95,7 @@ export function completeSwingCapture(state){
   document.getElementById('frameLbl').textContent=`F1/${state.allFrameData.length}`;
 
   state._cameraMode=true;
+  document.getElementById('speedLbl').style.display = 'none';
   state.runAnalysis();
 }
 
