@@ -207,9 +207,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);height:100vh
   .overlay-bar.visible{display:flex;flex-wrap:nowrap}
   .ob{font-size:10px;padding:6px 12px;min-width:0;flex:1 1 auto}
   .legend{font-size:9px;margin-left:6px;white-space:nowrap}
-  .controls-bar{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:46;display:none;align-items:center;gap:8px;padding:10px 16px;border-radius:16px;background:rgba(11,14,12,0.9);border:1px solid rgba(255,255,255,0.15);backdrop-filter:blur(20px)}
+  .controls-bar{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:46;display:none;align-items:center;gap:6px;padding:6px 12px;border-radius:16px;background:rgba(11,14,12,0.9);border:1px solid rgba(255,255,255,0.15);backdrop-filter:blur(20px)}
   .controls-bar.visible{display:flex}
-  .cb{width:36px;height:36px;font-size:11px}
+  .cb{width:32px;height:32px;font-size:11px}
   #progressBar{flex:1;margin:0 8px}
   .time-lbl{font-size:11px}
   .frame-lbl{font-size:11px}
