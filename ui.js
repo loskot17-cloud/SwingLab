@@ -31,11 +31,38 @@ state.getPhase = function(idx){
 };
 
 state.syncCanvasSize = function(){
-  const r=state.videoElement.getBoundingClientRect();
-  state.poseCanvas.style.width=r.width+'px';
-  state.poseCanvas.style.height=r.height+'px';
-  state.poseCanvas.style.top='0px';
-  state.poseCanvas.style.left='0px';
+  const videoEl = state.videoElement;
+  const canvas = state.poseCanvas;
+  const rect = videoEl.getBoundingClientRect();
+  const elementW = rect.width;
+  const elementH = rect.height;
+  const videoW = videoEl.videoWidth;
+  const videoH = videoEl.videoHeight;
+  const computedStyle = getComputedStyle(videoEl);
+  const objectFit = computedStyle.objectFit || 'contain'; // default is contain
+
+  let scale, contentW, contentH, offsetX, offsetY;
+  if (objectFit === 'cover') {
+    scale = Math.max(elementW / videoW, elementH / videoH);
+    contentW = elementW;
+    contentH = elementH;
+    offsetX = 0;
+    offsetY = 0;
+  } else { // contain or none
+    scale = Math.min(elementW / videoW, elementH / videoH);
+    contentW = videoW * scale;
+    contentH = videoH * scale;
+    offsetX = (elementW - contentW) / 2;
+    offsetY = (elementH - contentH) / 2;
+  }
+
+  canvas.width = videoW;
+  canvas.height = videoH;
+  canvas.style.position = 'absolute';
+  canvas.style.top = offsetY + 'px';
+  canvas.style.left = offsetX + 'px';
+  canvas.style.width = contentW + 'px';
+  canvas.style.height = contentH + 'px';
 };
 
 state.syncCameraCanvas = function(){
