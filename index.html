@@ -35,9 +35,11 @@ if(window.location.protocol==='file:'){document.addEventListener('DOMContentLoad
       </div>
       <input type="file" id="fileInput" accept="video/*">
     </div>
-    <video id="videoElement" playsinline muted preload="auto"></video>
-    <video id="cameraFeed" playsinline muted autoplay style="display:none;max-width:100%;max-height:100%"></video>
-    <canvas id="poseCanvas"></canvas>
+    <div class="zoom-container" id="zoomContainer">
+      <video id="videoElement" playsinline muted preload="auto"></video>
+      <video id="cameraFeed" playsinline muted autoplay style="display:none;max-width:100%;max-height:100%"></video>
+      <canvas id="poseCanvas"></canvas>
+    </div>
   </div>
 
   <div class="top-bar">

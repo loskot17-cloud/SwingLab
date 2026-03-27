@@ -16,7 +16,7 @@ const state = {
   speeds:[0.25,0.5,1,1.5],spdI:2,
   cameraStream:null,livePose:null,liveMode:false,liveAnimFrame:null,swingState:'idle',liveFrameBuffer:[],swingFrames:[],preSwingBuffer:[],
   PRE_BUFFER_SIZE:15,MIN_SWING_FRAMES:8,lastWristY:null,wristSmooth:0,motionSmooth:0,swingCooldown:0,
-  _cameraMode:false,selectedClub:'Driver',previousLandmarks:[]
+  _cameraMode:false,selectedClub:'Driver',previousLandmarks:[],zoomScale:1,zoomX:0,zoomY:0,lastTouchDistance:0,lastTap:0
 };
 
 state.getPhase = function(idx){
@@ -80,6 +80,49 @@ function renderSensSliders(){
   });
 }
 initSettingsUI();
+
+// Pinch to zoom
+const zoomContainer = $('zoomContainer');
+function getTouchDistance(touches){
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx*dx + dy*dy);
+}
+function applyZoom(){
+  zoomContainer.style.transform = `scale(${state.zoomScale}) translate(${state.zoomX}px, ${state.zoomY}px)`;
+  zoomContainer.style.transformOrigin = 'center';
+}
+zoomContainer.addEventListener('touchstart', e => {
+  if(e.touches.length === 2){
+    state.lastTouchDistance = getTouchDistance(e.touches);
+  } else if(e.touches.length === 1){
+    const now = Date.now();
+    if(now - state.lastTap < 300){
+      // Double tap
+      state.zoomScale = 1;
+      state.zoomX = 0;
+      state.zoomY = 0;
+      applyZoom();
+    }
+    state.lastTap = now;
+  }
+});
+zoomContainer.addEventListener('touchmove', e => {
+  if(e.touches.length === 2){
+    e.preventDefault();
+    const dist = getTouchDistance(e.touches);
+    const scaleChange = dist / state.lastTouchDistance;
+    state.zoomScale *= scaleChange;
+    state.zoomScale = Math.max(1, Math.min(5, state.zoomScale)); // Min 1x, max 5x
+    state.lastTouchDistance = dist;
+    applyZoom();
+  }
+});
+zoomContainer.addEventListener('touchend', e => {
+  if(e.touches.length === 0){
+    state.lastTouchDistance = 0;
+  }
+});
 
 // PWA install prompt
 window.addEventListener('beforeinstallprompt', e => {
