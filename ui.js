@@ -116,10 +116,7 @@ function getTouchDistance(touches){
 }
 function applyZoom(){
   const transform = `scale(${state.zoomScale}) translate(${state.zoomX}px, ${state.zoomY}px)`;
-  state.videoElement.style.transform = transform;
-  state.cameraFeed.style.transform = transform;
-  state.poseCanvas.style.transform = transform;
-  zoomContainer.style.transform = '';
+  zoomContainer.style.transform = transform;
   state.syncCanvasSize();
 }
 zoomContainer.addEventListener('touchstart', e => {
@@ -357,7 +354,7 @@ function runAnalysis(){
 
   R.captureSnaps(state);
   R.compareSaved(state);
-  state.golferBounds = A.calcGolferBounds(state.allFrameData);
+  state.golferBounds = A.calcGolferBounds(state.allFrameData, state.handedness);
   openDrawer();
   R.redraw(state);
 }

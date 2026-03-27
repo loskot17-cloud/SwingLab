@@ -31,7 +31,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);height:100vh
 .upload-btn-main{background:var(--green);color:var(--bg);border:none;padding:14px 32px;border-radius:12px;font-family:var(--mono);font-size:13px;font-weight:600;cursor:pointer;transition:transform 0.15s;min-height:48px}
 .upload-btn-main:hover{transform:translateY(-1px)}
 #fileInput{display:none}
-.controls-bar{position:fixed;left:50%;transform:translateX(-50%);z-index:45;display:none;align-items:center;gap:8px;padding:10px 16px;background:rgba(11,14,12,0.9);border:1px solid rgba(255,255,255,0.15);border-radius:16px;backdrop-filter:blur(20px);bottom:calc(16px + env(safe-area-inset-bottom))}
+.controls-bar{position:fixed;bottom:0;left:0;right:0;z-index:50;display:none;align-items:center;justify-content:center;gap:8px;padding:10px 16px;background:rgba(11,14,12,0.9);border:1px solid rgba(255,255,255,0.15);border-radius:16px;backdrop-filter:blur(20px);padding-bottom:env(safe-area-inset-bottom)}
 .controls-bar.visible{display:flex}
 .cb{background:none;border:none;color:var(--text2);width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
 .cb:hover{color:var(--text);background:rgba(255,255,255,0.1)}
@@ -120,7 +120,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);height:100vh
 .fault-card.expanded .f-expand{transform:rotate(180deg)}
 .f-details{display:none}
 .fault-card.expanded .f-details{display:block}
-.f-desc{font-size:12px;color:var(--text2);line-height:1.5;margin-bottom:8px}
+.f-desc{font-size:11px;color:var(--text2);line-height:1.5;margin-bottom:8px}
 .f-fix{font-size:11px;color:var(--green);line-height:1.4;padding-left:10px;border-left:2px solid rgba(74,222,128,0.25);margin-bottom:8px}
 .f-actions{display:flex;gap:6px;align-items:center}
 .f-conf{font-family:var(--mono);font-size:8px;padding:2px 7px;border-radius:10px;margin-left:auto}
@@ -205,28 +205,28 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);height:100vh
   .upload-zone .tagline{font-size:10px;margin-top:-8px}
   .overlay-bar{top:52px;padding:4px;max-width:100%;overflow:hidden}
   .overlay-bar.visible{display:flex;flex-wrap:nowrap}
-  .ob{font-size:10px;padding:6px 12px;min-width:0;flex:1 1 auto}
+  .ob{font-size:9px;padding:5px 10px;min-width:0;flex:1 1 auto}
   .legend{font-size:9px;margin-left:6px;white-space:nowrap}
-  .controls-bar{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);z-index:46;display:none;align-items:center;gap:6px;padding:6px 12px;border-radius:16px;background:rgba(11,14,12,0.9);border:1px solid rgba(255,255,255,0.15);backdrop-filter:blur(20px)}
+  .controls-bar{position:fixed;bottom:0;left:0;right:0;z-index:50;display:none;align-items:center;justify-content:center;gap:6px;padding:6px 12px;border-radius:16px;background:rgba(11,14,12,0.9);border:1px solid rgba(255,255,255,0.15);backdrop-filter:blur(20px);padding-bottom:env(safe-area-inset-bottom)}
   .controls-bar.visible{display:flex}
-  .cb{width:32px;height:32px;font-size:11px}
+  .cb{width:32px;height:32px;font-size:12px}
   #progressBar{flex:1;margin:0 8px}
-  .time-lbl{font-size:11px}
-  .frame-lbl{font-size:11px}
-  .speed-lbl{font-size:11px}
+  .time-lbl{font-size:10px}
+  .frame-lbl{font-size:10px}
+  .speed-lbl{font-size:10px}
   .drawer{width:100%;transform:translateX(100%)}
   .drawer.open{transform:translateX(0)}
   .drawer-head{padding:16px}
   .drawer-head h2{font-size:15px}
   .drawer-close{width:36px;height:36px}
   .drawer-tabs{display:flex}
-  .dtab{flex:1;font-size:13px;padding:12px 8px;text-align:center;height:44px;display:flex;align-items:center;justify-content:center}
+  .dtab{flex:1;font-size:12px;padding:12px 8px;text-align:center;height:44px;display:flex;align-items:center;justify-content:center}
   .drawer-body{padding:0}
   .d-section{padding:16px;margin:0;border-radius:0;border-bottom:1px solid var(--border)}
-  .d-label{font-size:10px;font-family:var(--mono);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+  .d-label{font-size:9px;font-family:var(--mono);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
   .score-row{display:flex;align-items:center;gap:16px}
   .score-ring{width:80px;height:80px}
-  .score-num{font-size:28px}
+  .score-num{font-size:26px}
   .score-info h3{font-size:14px;margin-bottom:4px}
   .score-info p{font-size:13px}
   .view-chip{font-size:11px;padding:4px 8px}
@@ -235,7 +235,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);height:100vh
   .metrics-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
   .m-card{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;text-align:center}
   .m-l{font-size:9px;color:var(--text3);margin-bottom:4px}
-  .m-v{font-size:18px;font-weight:600}
+  .m-v{font-size:16px;font-weight:600}
   .fault-card{padding:16px;border-bottom:1px solid var(--border)}
   .f-head{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px}
   .f-dot{width:8px;height:8px;margin-top:3px}

@@ -318,7 +318,7 @@ export function gradeLimbs(fd,phase,analysisResult,allFrameData,detectedView,han
   return g;
 }
 
-export function calcGolferBounds(allFrameData){
+export function calcGolferBounds(allFrameData, handedness){
   if(!allFrameData||allFrameData.length===0)return null;
   let minX=1,maxX=0,minY=1,maxY=0;
   for(const fd of allFrameData){
@@ -331,11 +331,18 @@ export function calcGolferBounds(allFrameData){
       }
     }
   }
-  const pad=0.15;
-  minX=Math.max(0,minX-pad);
-  maxX=Math.min(1,maxX+pad);
-  minY=Math.max(0,minY-pad);
-  maxY=Math.min(1,maxY+pad);
+  const padX=0.30, padY=0.20;
+  minX=Math.max(0,minX-padX);
+  maxX=Math.min(1,maxX+padX);
+  minY=Math.max(0,minY-padY);
+  maxY=Math.min(1,maxY+padY);
+  // Extra padding on club side
+  const extraPad=0.40;
+  if(handedness==='right'){
+    maxX=Math.min(1,maxX+extraPad);
+  } else {
+    minX=Math.max(0,minX-extraPad);
+  }
   return {minX,maxX,minY,maxY};
 }
 
