@@ -191,11 +191,82 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);height:100vh
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 .rec-dot{animation:pulse 0.8s infinite;background:var(--red)!important}
 @media(max-width:768px){
-  .drawer{width:100%}
-  #progressBar{width:100px}
-  .controls-bar{left:0;right:0;width:100%;transform:none;padding:12px 20px;border-radius:0;bottom:calc(16px + env(safe-area-inset-bottom))}
+  body{font-size:15px}
+  .controls-bar{bottom:calc(16px + env(safe-area-inset-bottom));left:8px;right:8px;width:auto;padding:12px 20px;border-radius:0}
   .controls-bar.visible{display:flex}
-  .cb{width:48px;height:48px;font-size:16px}
-  .ob{min-width:48px;padding:10px 14px;font-size:11px}
+  .cb{width:44px;height:44px;font-size:16px}
+  #progressBar{height:20px;padding:7px 0}
+  #progressFill{height:6px;margin-top:7px}
+  .time-lbl{font-size:13px}
+  .frame-lbl{font-size:13px}
+  .speed-lbl{font-size:13px}
+  .overlay-bar{gap:6px;padding:6px}
+  .overlay-bar.visible{display:flex}
+  .ob{padding:8px 16px;font-size:11px;min-height:36px}
+  .legend{font-size:10px}
+  .top-bar{padding:16px 20px}
+  .logo{font-size:18px}
+  .pill{font-size:12px;padding:6px 14px}
+  .top-btn{width:40px;height:40px}
+  .drawer-head{padding:18px 20px}
+  .drawer-head h2{font-size:16px}
+  .drawer-close{width:36px;height:36px}
+  .drawer-tabs{flex-shrink:0}
+  .dtab{font-size:13px;padding:12px}
+  .drawer-body{overflow-y:auto}
+  .d-section{padding:20px;margin:0 16px;border-radius:12px}
+  .d-label{font-size:12px;margin-bottom:12px}
+  .score-row{gap:20px}
+  .score-ring{width:80px;height:80px}
+  .score-ring svg{width:100%;height:100%}
+  .score-num{font-size:32px}
+  .score-info h3{font-size:15px}
+  .score-info p{font-size:14px}
+  .phase-bar{height:32px}
+  .ph-seg{font-size:10px}
+  .metrics-grid{gap:8px}
+  .m-card{padding:12px 14px}
+  .m-l{font-size:10px}
+  .m-v{font-size:22px}
+  .fault-card{padding:18px 20px}
+  .f-head{gap:10px}
+  .f-name{font-size:15px}
+  .f-desc{font-size:13px;margin-bottom:10px}
+  .f-fix{font-size:12px;margin-bottom:10px}
+  .f-actions{gap:8px}
+  .f-btn{font-size:12px;padding:8px 14px;min-height:36px}
+  .f-conf{font-size:11px}
+  .f-phase{font-size:10px}
+  .setting-group{margin-bottom:20px}
+  .setting-group-title{font-size:12px;margin-bottom:12px}
+  .seg-opt{font-size:11px;padding:10px 6px}
+  .sens-row{padding:8px 0}
+  .sens-name{font-size:12px}
+  .reanalyze-btn{font-size:13px;padding:12px}
+  .club-opt{font-size:10px;padding:8px 4px}
+  .ci-card{padding:16px 18px}
+  .ci-club-name{font-size:16px}
+  .ci-stat-row{padding:6px 0}
+  .ci-fault-name{font-size:11px}
+  .ci-bar-fill{height:6px}
+  .sv-card{padding:14px 16px;margin:10px 16px}
+  .sv-head{gap:12px}
+  .sv-name{font-size:13px}
+  .sv-score{font-size:20px}
+  .sv-meta{font-size:11px}
+  .sv-acts{margin-top:10px;gap:8px}
+  .sv-acts button{font-size:10px;padding:4px 10px}
+  .cmp-grid{gap:8px}
+  .cmp-col .cl{font-size:10px}
+  .cmp-col .cv{font-size:16px}
+  .cmp-d{font-size:11px}
+  .view-badge{font-size:13px;padding:6px 14px}
+  .kb-hint{font-size:10px;padding:6px 14px}
+  .analyzing{flex-direction:column;padding:40px 20px;gap:16px}
+  .az-t{font-size:15px}
+  .az-s{font-size:13px}
+  .drill-banner{padding:10px 18px;font-size:11px}
+  .saved-empty{padding:50px 20px;font-size:13px}
+  .ci-empty{font-size:12px}
 }
 body{padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
