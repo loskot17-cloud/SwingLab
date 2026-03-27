@@ -89,8 +89,11 @@ function getTouchDistance(touches){
   return Math.sqrt(dx*dx + dy*dy);
 }
 function applyZoom(){
-  zoomContainer.style.transform = `scale(${state.zoomScale}) translate(${state.zoomX}px, ${state.zoomY}px)`;
-  zoomContainer.style.transformOrigin = 'center';
+  const transform = `scale(${state.zoomScale}) translate(${state.zoomX}px, ${state.zoomY}px)`;
+  state.videoElement.style.transform = transform;
+  state.cameraFeed.style.transform = transform;
+  state.poseCanvas.style.transform = transform;
+  zoomContainer.style.transform = '';
   state.syncCanvasSize();
 }
 zoomContainer.addEventListener('touchstart', e => {
