@@ -16,7 +16,7 @@ const state = {
   speeds:[0.25,0.5,1,1.5],spdI:2,
   cameraStream:null,livePose:null,liveMode:false,liveAnimFrame:null,swingState:'idle',liveFrameBuffer:[],swingFrames:[],preSwingBuffer:[],
   PRE_BUFFER_SIZE:15,MIN_SWING_FRAMES:8,lastWristY:null,wristSmooth:0,motionSmooth:0,swingCooldown:0,
-  _cameraMode:false,selectedClub:'Driver',
+  _cameraMode:false,selectedClub:'Driver',previousLandmarks:[]
 };
 
 state.getPhase = function(idx){
@@ -261,8 +261,8 @@ function runAnalysis(){
       const c=document.createElement('div');c.className='fault-card';c.dataset.idx=i;
       const hasDrill=!!A.getDrillDef(f.name);
       const conf=f.conf||{score:0,label:'Unknown',cls:'low-conf'};
-      c.innerHTML=`<div class="f-head"><div class="f-dot ${f.severity}"></div><div class="f-name">${f.name}</div><span class="f-conf ${conf.cls}" title="Detection confidence: ${conf.score}%">${conf.label} ${conf.score}%</span><div class="f-phase">${f.phase}</div></div><div class="f-desc">${f.desc}</div><div class="f-fix">${f.fix}</div><div class="f-actions">${hasDrill?`<button class="f-btn drill" data-f="${f.name}" onclick="event.stopPropagation();window.activateDrill('${f.name.replace(/'/g,"\\'")}')">🎯 Drill</button>`:''}<button class="f-btn" onclick="event.stopPropagation();window.jumpFrame(${f.frameIdx})">▶ Show</button></div>`;
-      c.addEventListener('click',()=>{document.querySelectorAll('.fault-card').forEach(x=>x.classList.remove('active-fault'));c.classList.add('active-fault');jumpFrame(f.frameIdx);});
+      c.innerHTML=`<div class="f-head"><div class="f-dot ${f.severity}"></div><div class="f-name">${f.name}</div><span class="f-conf ${conf.cls}" title="Detection confidence: ${conf.score}%">${conf.label} ${conf.score}%</span><div class="f-phase">${f.phase}</div><div class="f-expand">▼</div></div><div class="f-details"><div class="f-desc">${f.desc}</div><div class="f-fix">${f.fix}</div><div class="f-actions">${hasDrill?`<button class="f-btn drill" data-f="${f.name}" onclick="event.stopPropagation();window.activateDrill('${f.name.replace(/'/g,"\\'")}')">🎯 Drill</button>`:''}<button class="f-btn" onclick="event.stopPropagation();window.jumpFrame(${f.frameIdx})">▶ Show</button></div></div>`;
+      c.addEventListener('click',()=>{c.classList.toggle('expanded');document.querySelectorAll('.fault-card').forEach(x=>x.classList.remove('active-fault'));c.classList.add('active-fault');});
       fl.appendChild(c);
     });
   }

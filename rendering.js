@@ -73,6 +73,47 @@ export function redraw(state){
   }
 
   if(showSkeleton){
+    // Motion trail
+    state.previousLandmarks.push(lm.map(p=>({x:p.x,y:p.y,z:p.z,visibility:p.visibility})));
+    if(state.previousLandmarks.length > 3) state.previousLandmarks.shift();
+    for(let i = 0; i < state.previousLandmarks.length - 1; i++){
+      const prevLm = state.previousLandmarks[i];
+      const alpha = 0.3 - i * 0.1;
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      const conn=[[11,12],[11,13],[13,15],[12,14],[14,16],[11,23],[12,24],[23,24],[23,25],[25,27],[24,26],[26,28]];
+      ctx.lineCap='round';
+      ctx.lineWidth=1.5;
+      ctx.strokeStyle='rgba(74,222,128,0.5)';
+      for(const [a,b] of conn){
+        if(prevLm[a].visibility>0.3&&prevLm[b].visibility>0.3){
+          ctx.beginPath();ctx.moveTo(prevLm[a].x*w,prevLm[a].y*h);ctx.lineTo(prevLm[b].x*w,prevLm[b].y*h);ctx.stroke();
+        }
+      }
+      ctx.restore();
+    }
+    // Silhouette
+    ctx.save();
+    ctx.globalAlpha = 0.1;
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.beginPath();
+    const silhouettePoints = [11,12,24,26,28,23,25,27,11]; // rough body outline
+    for(let i = 0; i < silhouettePoints.length; i++){
+      const pt = lm[silhouettePoints[i]];
+      if(pt.visibility > 0.3){
+        if(i === 0) ctx.moveTo(pt.x * w, pt.y * h);
+        else ctx.lineTo(pt.x * w, pt.y * h);
+      }
+    }
+    ctx.closePath();
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  if(showSkeleton){
     const conn=[[11,12],[11,13],[13,15],[12,14],[14,16],[11,23],[12,24],[23,24],[23,25],[25,27],[24,26],[26,28],[27,29],[28,30],[29,31],[30,32]];
     const phase=state.getPhase(currentFrameIdx);
     const grades=gradeLimbs(fd,phase,analysisResult,allFrameData,detectedView,state.handedness);
@@ -83,13 +124,19 @@ export function redraw(state){
         if(g!=='good'){ctx.lineWidth=6;ctx.strokeStyle=g==='warn'?'rgba(251,191,36,0.1)':'rgba(248,113,113,0.12)';ctx.beginPath();ctx.moveTo(lm[a].x*w,lm[a].y*h);ctx.lineTo(lm[b].x*w,lm[b].y*h);ctx.stroke();}
         ctx.lineWidth=g==='good'?1.8:2.2;
         ctx.strokeStyle=g==='good'?'rgba(74,222,128,0.75)':g==='warn'?'rgba(251,191,36,0.8)':'rgba(248,113,113,0.8)';
-        ctx.beginPath();ctx.moveTo(lm[a].x*w,lm[a].y*h);ctx.lineTo(lm[b].x*w,lm[b].y*h);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(lm[a].x*w,lm[a].y*h);ctx.lineTo(lm[b].x*w,lm[a].y*h);ctx.lineTo(lm[b].x*w,lm[b].y*h);ctx.stroke();
       }
     }
     const jg={};
     for(const [a,b] of conn){const g=grades[a+'-'+b]||'good';const rk={bad:0,warn:1,good:2}; for(const j of [a,b]) if(!jg[j]||rk[g]<rk[jg[j]]) jg[j]=g;}
     for(const i of [11,12,13,14,15,16,23,24,25,26,27,28]){
-      if(lm[i].visibility>0.3){const g=jg[i]||'good';ctx.beginPath();ctx.arc(lm[i].x*w,lm[i].y*h,g==='good'?2.5:3.5,0,Math.PI*2);ctx.fillStyle=g==='good'?'rgba(74,222,128,0.9)':g==='warn'?'rgba(251,191,36,0.9)':'rgba(248,113,113,0.9)';ctx.fill();}
+      if(lm[i].visibility>0.3){const g=jg[i]||'good';
+        ctx.save();
+        ctx.shadowColor = g==='good'?'rgba(74,222,128,0.5)':g==='warn'?'rgba(251,191,36,0.5)':'rgba(248,113,113,0.5)';
+        ctx.shadowBlur = 4;
+        ctx.beginPath();ctx.arc(lm[i].x*w,lm[i].y*h,g==='good'?2.5:3.5,0,Math.PI*2);ctx.fillStyle=g==='good'?'rgba(74,222,128,0.9)':g==='warn'?'rgba(251,191,36,0.9)':'rgba(248,113,113,0.9)';ctx.fill();
+        ctx.restore();
+      }
     }
   }
 
