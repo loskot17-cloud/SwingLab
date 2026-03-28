@@ -41,6 +41,11 @@ state.syncCanvasSize = function(){
   const computedStyle = getComputedStyle(videoEl);
   const objectFit = computedStyle.objectFit || 'contain'; // default is contain
 
+  console.log('Video element rect:', rect);
+  console.log('Video natural size:', videoW, videoH);
+  console.log('Element size:', elementW, elementH);
+  console.log('Object fit:', objectFit);
+
   let scale, contentW, contentH, offsetX, offsetY;
   if (objectFit === 'cover') {
     scale = Math.max(elementW / videoW, elementH / videoH);
@@ -63,6 +68,10 @@ state.syncCanvasSize = function(){
   canvas.style.left = offsetX + 'px';
   canvas.style.width = contentW + 'px';
   canvas.style.height = contentH + 'px';
+  canvas.style.border = '2px solid red'; // TEMPORARY DIAGNOSTIC
+
+  console.log('Canvas CSS position:', canvas.style.left, canvas.style.top, canvas.style.width, canvas.style.height);
+  console.log('Scale factor:', scale, 'Content area:', contentW, contentH, 'Offset:', offsetX, offsetY);
 };
 
 state.syncCameraCanvas = function(){
